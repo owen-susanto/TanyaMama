@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "214953140762",
+    "project_id": "tanya-mama",
+    "storage_bucket": "tanya-mama.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214953140762:android:2be63faa5a531dc44767a3",
+        "android_client_info": {
+          "package_name": "com.example.flutter_tanya_mama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214953140762-lrd4obp52q091ndmio9mjugh5lst50ms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpXVVAs6mWLcsXt1EnAEaHkFOLI7w9-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214953140762-lrd4obp52q091ndmio9mjugh5lst50ms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
