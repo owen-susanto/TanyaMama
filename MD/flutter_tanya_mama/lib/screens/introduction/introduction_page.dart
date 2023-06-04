@@ -45,24 +45,18 @@ class _IntroductionPageState extends State<IntroductionPage> {
             children: <Widget>[
               Center(
                 child: Image.asset(
-                  'assets/pakkj.png',
+                  'assets/Tanyamama.png',
                   width: 200,
                 ),
               ),
               const SizedBox(height: 45),
               const CustomText(
-                "Selamat Datang di PAKKJ!",
+                "Selamat Datang di Tanya Mama!",
                 textAlign: TextAlign.left,
                 fontSize: 21,
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 5),
-              const CustomText(
-                "Aplikasi alumni Kanisius Jakarta",
-                textAlign: TextAlign.left,
-                fontSize: 17,
-              ),
-              const SizedBox(height: 10),
               Center(
                 child: SizedBox(
                   height: 50,
@@ -80,7 +74,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
                 ),
               ),
               const SizedBox(height: 10),
-              const Agreement(),
+              // const Agreement(),
               const SizedBox(height: 5),
             ],
           ),

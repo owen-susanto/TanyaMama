@@ -12,6 +12,7 @@ import 'package:flutter_tanya_mama/functions/token_version.dart';
 import 'package:flutter_tanya_mama/screens/introduction/introduction_screen.dart';
 import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
@@ -20,7 +21,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    // Pass all uncaught errors from the framework to Crashlytics.
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
     runApp(const MyApp());
   }, (error, stack) => {});
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
   }
 
   static Widget getHomeScreen(BuildContext context) {
-    return FutureUse<String>(
+    return FutureUse<User?>(
       future: initAndGetToken(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -73,7 +74,6 @@ class MyApp extends StatelessWidget {
 
   static Future<String> initAndGetToken() async {
     await TokenVersion.init();
-    String token = await TokenVersion.getToken();
-    return token;
+    return FirebaseAuth.instance.
   }
 }
