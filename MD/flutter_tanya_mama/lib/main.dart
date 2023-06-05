@@ -55,16 +55,18 @@ class MyApp extends StatelessWidget {
   }
 
   static Widget getHomeScreen(BuildContext context) {
-    return FutureUse<User?>(
-      future: initAndGetToken(),
+    return StreamBuilder<User?>(
+      stream: initAndGetToken(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // if (snapshot.data?.isEmpty ?? true) {
-          return DoubleBackFunction.use(const IntroductionScreen());
-          // }
-          // else {
-          //   return DoubleBackFunction.use(const HomeScreen());
-          // }
+          var user = snapshot.data;
+
+          if (user == null) {
+            return DoubleBackFunction.use(const IntroductionScreen());
+          } else {
+            return Container();
+            // return DoubleBackFunction.use(const HomeScreen());
+          }
         } else {
           return DoubleBackFunction.use(const IntroductionScreen());
         }
@@ -72,8 +74,10 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  static Future<String> initAndGetToken() async {
-    await TokenVersion.init();
-    return FirebaseAuth.instance.
+  static Stream<User?> initAndGetToken() {
+    TokenVersion.init();
+    var instance = FirebaseAuth.instanceFor(
+        app: Firebase.app(), persistence: Persistence.LOCAL);
+    return instance.authStateChanges();
   }
 }
