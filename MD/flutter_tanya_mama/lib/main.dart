@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
@@ -10,18 +11,15 @@ import 'package:flutter_tanya_mama/functions/double_back_function.dart';
 import 'package:flutter_tanya_mama/functions/token_version.dart';
 // import 'package:flutter_tanya_mama/screens/home/home_screen.dart';
 import 'package:flutter_tanya_mama/screens/introduction/introduction_screen.dart';
-import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-void main() async {
+Future main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
     runApp(const MyApp());
   }, (error, stack) => {});

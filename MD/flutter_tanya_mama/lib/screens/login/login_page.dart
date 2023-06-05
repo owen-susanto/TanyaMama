@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
+import 'package:flutter_tanya_mama/functions/loading_function.dart';
 
 import 'package:flutter_tanya_mama/functions/routes.dart';
 import 'package:flutter_tanya_mama/constants/page_name.dart';
 import 'package:flutter_tanya_mama/configs/configs.dart';
+import 'package:flutter_tanya_mama/functions/toast_helper.dart';
 import 'package:flutter_tanya_mama/widgets/base_raised_button.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
 import 'package:flutter_tanya_mama/widgets/normal_form_field.dart';
@@ -35,7 +38,8 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
   void dispose() {
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
-
+    _emailTextEditingController.dispose();
+    _passwordTextEditingController.dispose();
     super.dispose();
   }
 
@@ -94,7 +98,7 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
           NormalFormField(
             hintText: "ex. abc@gmail.com",
             labelText: "Alamat E-Mail",
-            controller: _emailTextEditingController,
+            // controller: _emailTextEditingController,
             suffixIcon: const Icon(Icons.email, size: 20),
             keyboardType: TextInputType.emailAddress,
             onChanged: (val) => _emailTextEditingController.text = val,
@@ -105,10 +109,10 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
           ),
           const SizedBox(height: 20),
           PasswordNormalFormField(
-            controller: _passwordTextEditingController,
+            // controller: _passwordTextEditingController,
             labelText: "Password",
             hintText: "ex. ******",
-            onChanged: (val) => _emailTextEditingController.text = val,
+            onChanged: (val) => _passwordTextEditingController.text = val,
             focusNode: _passwordFocusNode,
             onFieldSubmitted: (_) async => await login(context),
             textInputAction: TextInputAction.done,
@@ -163,5 +167,31 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
     );
   }
 
-  Future<void> login(BuildContext context) async {}
+  Future<void> login(BuildContext context) async {
+    try {
+      LoadingFunction.showLoadingDialog(context);
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailTextEditingController.text,
+          password: _passwordTextEditingController.text);
+
+      LoadingFunction.closeLoadingDialog(context);
+
+      Routes.pushReplacement(context, PageName.Home);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        LoadingFunction.closeLoadingDialog(context);
+        ToastHelper.showException("Password Terlalu Lemag..", context);
+      } else if (e.code == 'email-already-in-use') {
+        LoadingFunction.closeLoadingDialog(context);
+        ToastHelper.showException("Akun sudah ada..", context);
+      } else {
+        LoadingFunction.closeLoadingDialog(context);
+        ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+      }
+    } catch (err) {
+      LoadingFunction.closeLoadingDialog(context);
+      ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+    }
+  }
 }

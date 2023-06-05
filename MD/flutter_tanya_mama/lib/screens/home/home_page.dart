@@ -9,23 +9,20 @@ import 'package:flutter_tanya_mama/constants/page_name.dart';
 import 'package:flutter_tanya_mama/functions/loading_function.dart';
 import 'package:flutter_tanya_mama/functions/routes.dart';
 import 'package:flutter_tanya_mama/functions/toast_helper.dart';
-import 'package:flutter_tanya_mama/functions/upload/firebase_uploader_helper.dart';
 import 'package:flutter_tanya_mama/widgets/base_raised_button.dart';
-import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_check_box_with_rich_text.dart';
-import 'package:flutter_tanya_mama/widgets/custom/custom_dropdown_with_name.dart';
 import 'package:flutter_tanya_mama/widgets/link_text_span.dart';
 import 'package:flutter_tanya_mama/widgets/normal_form_field.dart';
 import 'package:flutter_tanya_mama/widgets/password_normal_form_field.dart';
 
-class RegisterPage extends CoreStatefulWidget {
-  const RegisterPage({super.key});
+class HomePage extends CoreStatefulWidget {
+  const HomePage({super.key});
 
   @override
-  CoreStatefulWidgetState<RegisterPage> createState() => _RegisterPageState();
+  CoreStatefulWidgetState<HomePage> createState() => _HomePageState();
 }
 
-class _RegisterPageState extends CoreStatefulWidgetState<RegisterPage> {
+class _HomePageState extends CoreStatefulWidgetState<HomePage> {
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
   late FocusNode _confirmPasswordFocusNode;
