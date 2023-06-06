@@ -1,19 +1,12 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart' as ui;
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
+
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
 import 'package:flutter_tanya_mama/configs/configs.dart';
-import 'package:flutter_tanya_mama/constants/page_name.dart';
-import 'package:flutter_tanya_mama/functions/loading_function.dart';
-import 'package:flutter_tanya_mama/functions/routes.dart';
-import 'package:flutter_tanya_mama/functions/toast_helper.dart';
-import 'package:flutter_tanya_mama/widgets/base_raised_button.dart';
-import 'package:flutter_tanya_mama/widgets/custom/custom_check_box_with_rich_text.dart';
-import 'package:flutter_tanya_mama/widgets/link_text_span.dart';
-import 'package:flutter_tanya_mama/widgets/normal_form_field.dart';
-import 'package:flutter_tanya_mama/widgets/password_normal_form_field.dart';
 
 class HomePage extends CoreStatefulWidget {
   const HomePage({super.key});
@@ -23,187 +16,244 @@ class HomePage extends CoreStatefulWidget {
 }
 
 class _HomePageState extends CoreStatefulWidgetState<HomePage> {
-  late FocusNode _emailFocusNode;
-  late FocusNode _passwordFocusNode;
-  late FocusNode _confirmPasswordFocusNode;
+  final List<types.Message> _messages = [];
 
-  late TextEditingController _emailTextEditingController;
-  late TextEditingController _passwordTextEditingController;
-  late TextEditingController _confirmPasswordTextEditingController;
-
-  bool accepted = false;
-  late GlobalKey<FormState> _formKey;
+  late User user;
+  late types.User _user;
+  late types.User _mama;
+  late ScrollController _scrollController;
+  late Session session;
+  late SessionHelper _sessionHelper;
+  late ChatHelper _chatHelper;
+  late String mamaEmotion;
+  late bool isInitial;
 
   @override
   void initState() {
-    _emailFocusNode = FocusNode();
-    _passwordFocusNode = FocusNode();
-    _confirmPasswordFocusNode = FocusNode();
-    _emailTextEditingController = TextEditingController();
-    _passwordTextEditingController = TextEditingController();
-    _confirmPasswordTextEditingController = TextEditingController();
-
-    _formKey = GlobalKey<FormState>();
+    _user = const types.User(id: "user@nasihatmama.com");
+    _mama = const types.User(id: 'mama');
+    _scrollController = ScrollController();
+    _sessionHelper = SessionHelper();
+    _chatHelper = ChatHelper();
+    mamaEmotion = "smile";
+    isInitial = false;
 
     super.initState();
   }
 
   @override
   void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _confirmPasswordFocusNode.dispose();
-    _emailTextEditingController.dispose();
-    _passwordTextEditingController.dispose();
-    _confirmPasswordTextEditingController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          NormalFormField(
-            informationText: "Mohon Pastikan kamu mengisi alamat email.",
-            hintText: "ex. xx@gmail.com",
-            labelText: "Email",
-            text: _emailTextEditingController.text,
-            suffixIcon: const Icon(Icons.person, size: 20),
-            keyboardType: TextInputType.name,
-            onChanged: (val) => _emailTextEditingController.text = val,
-            focusNode: _emailFocusNode,
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_passwordFocusNode),
-            textInputAction: TextInputAction.next,
-          ),
-          const SizedBox(height: 20),
-          PasswordNormalFormField(
-            hintText: "ex. ******",
-            labelText: "Password",
-            text: _passwordTextEditingController.text,
-            onChanged: (val) => _passwordTextEditingController.text = val,
-            focusNode: _passwordFocusNode,
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_confirmPasswordFocusNode),
-            textInputAction: TextInputAction.next,
-          ),
-          const SizedBox(height: 20),
-          PasswordNormalFormField(
-            hintText: "ex. ******",
-            labelText: 'Konfirmasi Password',
-            text: _confirmPasswordTextEditingController.text,
-            onChanged: (val) =>
-                _confirmPasswordTextEditingController.text = val,
-            focusNode: _confirmPasswordFocusNode,
-            onFieldSubmitted: (_) async => await register(context),
-            textInputAction: TextInputAction.done,
-          ),
-          const SizedBox(height: 30),
-          CustomCheckBoxWithRichText(
-            [
-              TextSpan(
-                text: "Saya setuju dengan ",
-                style: TextStyle(fontSize: 14 * fontRatio),
-              ),
-              LinkTextSpan(
-                text: "Syarat & Ketentuan",
-                url: "https://pakkj.app/terms.html",
-                style: TextStyle(
-                  color: Configs.secondaryColor,
-                  decoration: TextDecoration.underline,
-                  fontSize: 14 * fontRatio,
-                ),
-              ),
-              TextSpan(
-                text: " dan ",
-                style: TextStyle(fontSize: 14 * fontRatio),
-              ),
-              LinkTextSpan(
-                text: "Kebijakan Privasi",
-                url: "https://pakkj.app/privacy.html",
-                style: TextStyle(
-                  color: Configs.secondaryColor,
-                  decoration: TextDecoration.underline,
-                  fontSize: 14 * fontRatio,
-                ),
-              ),
-              TextSpan(
-                text: " penggunaan aplikasi ini",
-                style: TextStyle(fontSize: 14 * fontRatio),
-              ),
-            ],
-            initialValue: accepted,
-            onChanged: (val) => setState(() {
-              accepted = val;
-            }),
-          ),
-          const SizedBox(height: 45),
-          Center(
-            child: SizedBox(
-              height: 50,
-              child: BaseRaisedButton(
-                ratio: 1 / 1.25,
-                onPressed: () async => await register(context),
-                color: Configs.secondaryColor,
-                child: const Text(
-                  "SIMPAN",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
+    return UserBuilder(builder: (user) {
+      this.user = user;
+      return FutureBuilder<Session>(
+        future: _sessionHelper.getSession(user.email),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            session ??= snapshot.data;
+
+            if (session.isEmpty) {
+              return StartSessionWidget(
+                onPressedStartSession: () {
+                  setState(() {
+                    session = Session(
+                      id: randomString(),
+                      userId: user.id,
+                      isActive: true,
+                    );
+                    _sessionHelper.create(session);
+                    _addMessageFromUser(
+                      "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
+                    );
+                    _addMessageFromMama(
+                      "Ya, ${user.getFirstName()}, apa yang mau kamu beli?",
+                    );
+                    isInitial = true;
+                  });
+                },
+              );
+            }
+
+            return FutureUse<Iterable<Chat>>(
+              future: _chatHelper.getList(session.id),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && !isInitial) {
+                  final chats = snapshot.data;
+                  for (var chat in chats) {
+                    types.Message message;
+
+                    if (chat.userId == user.id) {
+                      message = types.TextMessage(
+                        author: _user,
+                        id: chat.id,
+                        text: chat.content,
+                      );
+                    } else {
+                      message = types.TextMessage(
+                        author: _mama,
+                        id: chat.id,
+                        text: chat.content,
+                      );
+                    }
+
+                    if (_messages.where((e) => e.id == message.id).isEmpty) {
+                      _messages.insert(0, message);
+                    }
+                  }
+                }
+
+                return Column(
+                  children: [
+                    Image.asset(
+                      getMamaImage(mamaEmotion),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    Expanded(
+                      child: ui.Chat(
+                        messages: _messages,
+                        customBottomWidget: !session.isActive
+                            ? Container(
+                                width: double.infinity,
+                                color: Configs.secondaryColor,
+                                height: 100,
+                                child: Center(
+                                  child: LongRaisedButton(
+                                    height: 50,
+                                    onPressed: () {
+                                      setState(() {
+                                        session = Session(
+                                          id: randomString(),
+                                          userId: user.id,
+                                          isActive: true,
+                                        );
+                                        mamaEmotion = "smile";
+                                        _messages.clear();
+                                        _sessionHelper.create(session);
+                                        _addMessageFromUser(
+                                          "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
+                                        );
+                                        _addMessageFromMama(
+                                          "Ya, ${user.getFirstName()}, apa yang mau kamu beli?",
+                                        );
+                                        isInitial = true;
+                                      });
+                                    },
+                                    child: const CustomText(
+                                      "Chat Lagi dengan Mama",
+                                      color: Configs.backgroundColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : null,
+                        onPreviewDataFetched: _handlePreviewDataFetched,
+                        onSendPressed: _handleSendPressed,
+                        user: _user,
+                        scrollController: _scrollController,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+
+          return const Center(child: CircularProgressIndicator());
+        },
+      );
+    });
   }
 
-  Future<void> register(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-    if (!(_confirmPasswordTextEditingController.text ==
-        _passwordTextEditingController.text)) {
-      return ToastHelper.showException("Password tidak sama..", context);
-    }
-    if (!accepted) {
-      return ToastHelper.showException("Persetujuan belum diterima..", context);
-    }
+  String getMamaImage(String name) {
+    return "assets/mama_${name}_512.png";
+  }
+
+  void _addMessageFromMama(String message) {
+    _addMessage(_mama, message);
+  }
+
+  void _addMessageFromUser(String message) {
+    _addMessage(_user, message);
+  }
+
+  void _addMessage(types.User author, String text) {
+    setState(() {
+      final message = types.TextMessage(
+        author: author,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: randomString(),
+        text: text,
+      );
+
+      final now = DateTime.now().toUtc().millisecondsSinceEpoch;
+
+      final chat = Chat(
+        id: "${now}_${author.id}",
+        sessionId: session.id,
+        userId: author.id,
+        content: text,
+        chatType: ChatType.Text,
+      );
+      _chatHelper.create(chat);
+
+      _messages.insert(0, message);
+    });
+  }
+
+  void _handlePreviewDataFetched(
+    types.TextMessage message,
+    types.PreviewData previewData,
+  ) {
+    final index = _messages.indexWhere((element) => element.id == message.id);
+    final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
+      previewData: previewData,
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _messages[index] = updatedMessage;
+      });
+    });
+  }
+
+  void _handleSendPressed(types.PartialText message) async {
+    _addMessageFromUser(message.text);
 
     try {
-      LoadingFunction.showLoadingDialog(context);
+      _scrollController.animateTo(
+        0,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 500),
+      );
+    } catch (err) {}
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailTextEditingController.text,
-          password: _passwordTextEditingController.text);
+    final reply = await MamaLogic.getReply(session, message.text);
 
-      LoadingFunction.closeLoadingDialog(context);
-
-      Routes.pushReplacement(context, PageName.Home);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        LoadingFunction.closeLoadingDialog(context);
-        ToastHelper.showException("Password Terlalu Lemag..", context);
-      } else if (e.code == 'email-already-in-use') {
-        LoadingFunction.closeLoadingDialog(context);
-        ToastHelper.showException("Akun sudah ada..", context);
-      } else {
-        LoadingFunction.closeLoadingDialog(context);
-        ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+    if (reply != null) {
+      session = reply.session;
+      if (session.verdict != null) {
+        await _sessionHelper.update(session);
+        _sessionHelper.endSession(session.id);
+        session.isActive = false;
       }
-    } catch (err) {
-      LoadingFunction.closeLoadingDialog(context);
-      ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+      mamaEmotion = reply.mamaEmotion;
+
+      for (final message in reply.replies) {
+        _addMessageFromMama(message);
+      }
     }
+  }
+
+  String randomString() {
+    final random = Random.secure();
+    final values = List<int>.generate(16, (i) => random.nextInt(255));
+    return base64UrlEncode(values);
   }
 }
 
