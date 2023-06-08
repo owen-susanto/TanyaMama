@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,14 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
 import 'package:flutter_tanya_mama/configs/configs.dart';
+import 'package:flutter_tanya_mama/models/chat/chat.dart';
+import 'package:flutter_tanya_mama/models/chat/chat_helper.dart';
+import 'package:flutter_tanya_mama/models/session/session.dart';
+import 'package:flutter_tanya_mama/models/session/session_helper.dart';
+import 'package:flutter_tanya_mama/screens/home/widgets/start_session_widget.dart';
+import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
+import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
+import 'package:flutter_tanya_mama/widgets/long_raised_button.dart';
 
 class HomePage extends CoreStatefulWidget {
   const HomePage({super.key});
@@ -21,7 +30,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
   late User user;
   late types.User _user;
   late types.User _mama;
-  late ScrollController _scrollController;
+  // late ScrollController _scrollController;
   late Session session;
   late SessionHelper _sessionHelper;
   late ChatHelper _chatHelper;
@@ -32,7 +41,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
   void initState() {
     _user = const types.User(id: "user@nasihatmama.com");
     _mama = const types.User(id: 'mama');
-    _scrollController = ScrollController();
+    // _scrollController = ScrollController();
     _sessionHelper = SessionHelper();
     _chatHelper = ChatHelper();
     mamaEmotion = "smile";
@@ -79,24 +88,24 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
             }
 
             return FutureUse<Iterable<Chat>>(
-              future: _chatHelper.getList(session.id),
+              future: _chatHelper.getList(session.id ?? ""),
               builder: (context, snapshot) {
                 if (snapshot.hasData && !isInitial) {
-                  final chats = snapshot.data;
+                  final chats = snapshot.data?.toList() ?? [];
                   for (var chat in chats) {
                     types.Message message;
 
                     if (chat.userId == user.id) {
                       message = types.TextMessage(
                         author: _user,
-                        id: chat.id,
-                        text: chat.content,
+                        id: chat.id ?? "",
+                        text: chat.content ?? "",
                       );
                     } else {
                       message = types.TextMessage(
                         author: _mama,
-                        id: chat.id,
-                        text: chat.content,
+                        id: chat.id ?? "",
+                        text: chat.content ?? "",
                       );
                     }
 
@@ -115,7 +124,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                     Expanded(
                       child: ui.Chat(
                         messages: _messages,
-                        customBottomWidget: !session.isActive
+                        customBottomWidget: !(session.isActive ?? true)
                             ? Container(
                                 width: double.infinity,
                                 color: Configs.secondaryColor,
@@ -155,7 +164,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                         onPreviewDataFetched: _handlePreviewDataFetched,
                         onSendPressed: _handleSendPressed,
                         user: _user,
-                        scrollController: _scrollController,
+                        // scrollController: _scrollController,
                       ),
                     ),
                   ],
@@ -198,7 +207,6 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
         sessionId: session.id,
         userId: author.id,
         content: text,
-        chatType: ChatType.Text,
       );
       _chatHelper.create(chat);
 
@@ -225,13 +233,13 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
   void _handleSendPressed(types.PartialText message) async {
     _addMessageFromUser(message.text);
 
-    try {
-      _scrollController.animateTo(
-        0,
-        curve: Curves.easeOut,
-        duration: const Duration(milliseconds: 500),
-      );
-    } catch (err) {}
+    // try {
+    //   _scrollController.animateTo(
+    //     0,
+    //     curve: Curves.easeOut,
+    //     duration: const Duration(milliseconds: 500),
+    //   );
+    // } catch (err) {}
 
     final reply = await MamaLogic.getReply(session, message.text);
 
@@ -239,7 +247,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
       session = reply.session;
       if (session.verdict != null) {
         await _sessionHelper.update(session);
-        _sessionHelper.endSession(session.id);
+        _sessionHelper.endSession(session.id ?? "");
         session.isActive = false;
       }
       mamaEmotion = reply.mamaEmotion;

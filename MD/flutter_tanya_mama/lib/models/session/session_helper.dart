@@ -13,7 +13,7 @@ class SessionHelper {
         .where("isActive", isEqualTo: true)
         .snapshots()
         .mapList(Session.fromMap)
-        .map((e) => e.first);
+        .map((e) => e.first ?? Session.empty());
   }
 
   Future<Session> getSession(String id) async {

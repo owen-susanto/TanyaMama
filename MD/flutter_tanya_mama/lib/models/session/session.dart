@@ -1,19 +1,19 @@
 import 'package:flutter_tanya_mama/models/item/item.dart';
 
 class Session {
-  static Session _empty;
+  static Session? _empty;
 
-  String id;
-  String userId;
-  int quantity;
-  String reason;
-  bool verdict;
-  int rejectType;
-  Item item;
+  String? id;
+  String? userId;
+  int? quantity;
+  String? reason;
+  bool? verdict;
+  int? rejectType;
+  Item? item;
 
-  bool isHobby;
-  bool isProfession;
-  bool isActive;
+  bool? isHobby;
+  bool? isProfession;
+  bool? isActive;
 
   static Session empty() {
     return _empty ??= Session(id: "EMPTY");
@@ -34,7 +34,7 @@ class Session {
     this.isActive,
   });
 
-  static Session fromMap(Map<String, dynamic> data) {
+  static Session? fromMap(Map<String, dynamic> data) {
     return data == null
         ? null
         : Session(
@@ -51,7 +51,7 @@ class Session {
           );
   }
 
-  static List<Session> fromMapList(List<dynamic> data) {
+  static List<Session?> fromMapList(List<dynamic> data) {
     return data == null ? [] : data.map((e) => fromMap(e)).toList();
   }
 
