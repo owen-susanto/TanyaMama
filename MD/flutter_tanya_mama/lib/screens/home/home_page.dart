@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as ui;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
 import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/models/chat/chat.dart';
 import 'package:flutter_tanya_mama/models/chat/chat_helper.dart';
+import 'package:flutter_tanya_mama/models/reply/reply.dart';
 import 'package:flutter_tanya_mama/models/session/session.dart';
 import 'package:flutter_tanya_mama/models/session/session_helper.dart';
 import 'package:flutter_tanya_mama/screens/home/widgets/start_session_widget.dart';
@@ -57,126 +59,126 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return UserBuilder(builder: (user) {
-      this.user = user;
-      return FutureBuilder<Session>(
-        future: _sessionHelper.getSession(user.email),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            session ??= snapshot.data;
+    var instance = FirebaseAuth.instance;
+    user = instance.currentUser!;
 
-            if (session.isEmpty) {
-              return StartSessionWidget(
-                onPressedStartSession: () {
-                  setState(() {
-                    session = Session(
-                      id: randomString(),
-                      userId: user.id,
-                      isActive: true,
-                    );
-                    _sessionHelper.create(session);
-                    _addMessageFromUser(
-                      "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
-                    );
-                    _addMessageFromMama(
-                      "Ya, ${user.getFirstName()}, apa yang mau kamu beli?",
-                    );
-                    isInitial = true;
-                  });
-                },
-              );
-            }
+    return FutureBuilder<Session>(
+      future: _sessionHelper.getSession(user.email ?? ""),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          session = snapshot.data ?? Session.empty();
 
-            return FutureUse<Iterable<Chat>>(
-              future: _chatHelper.getList(session.id ?? ""),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && !isInitial) {
-                  final chats = snapshot.data?.toList() ?? [];
-                  for (var chat in chats) {
-                    types.Message message;
-
-                    if (chat.userId == user.id) {
-                      message = types.TextMessage(
-                        author: _user,
-                        id: chat.id ?? "",
-                        text: chat.content ?? "",
-                      );
-                    } else {
-                      message = types.TextMessage(
-                        author: _mama,
-                        id: chat.id ?? "",
-                        text: chat.content ?? "",
-                      );
-                    }
-
-                    if (_messages.where((e) => e.id == message.id).isEmpty) {
-                      _messages.insert(0, message);
-                    }
-                  }
-                }
-
-                return Column(
-                  children: [
-                    Image.asset(
-                      getMamaImage(mamaEmotion),
-                      width: MediaQuery.of(context).size.width * 0.4,
-                    ),
-                    Expanded(
-                      child: ui.Chat(
-                        messages: _messages,
-                        customBottomWidget: !(session.isActive ?? true)
-                            ? Container(
-                                width: double.infinity,
-                                color: Configs.secondaryColor,
-                                height: 100,
-                                child: Center(
-                                  child: LongRaisedButton(
-                                    height: 50,
-                                    onPressed: () {
-                                      setState(() {
-                                        session = Session(
-                                          id: randomString(),
-                                          userId: user.id,
-                                          isActive: true,
-                                        );
-                                        mamaEmotion = "smile";
-                                        _messages.clear();
-                                        _sessionHelper.create(session);
-                                        _addMessageFromUser(
-                                          "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
-                                        );
-                                        _addMessageFromMama(
-                                          "Ya, ${user.getFirstName()}, apa yang mau kamu beli?",
-                                        );
-                                        isInitial = true;
-                                      });
-                                    },
-                                    child: const CustomText(
-                                      "Chat Lagi dengan Mama",
-                                      color: Configs.backgroundColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : null,
-                        onPreviewDataFetched: _handlePreviewDataFetched,
-                        onSendPressed: _handleSendPressed,
-                        user: _user,
-                        // scrollController: _scrollController,
-                      ),
-                    ),
-                  ],
-                );
+          if (session.isEmpty) {
+            return StartSessionWidget(
+              onPressedStartSession: () {
+                setState(() {
+                  session = Session(
+                    id: randomString(),
+                    userId: user.uid,
+                    isActive: true,
+                  );
+                  _sessionHelper.create(session);
+                  _addMessageFromUser(
+                    "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
+                  );
+                  _addMessageFromMama(
+                    "Ya, ${user.displayName} apa yang mau kamu beli?",
+                  );
+                  isInitial = true;
+                });
               },
             );
           }
 
-          return const Center(child: CircularProgressIndicator());
-        },
-      );
-    });
+          return FutureUse<Iterable<Chat>>(
+            future: _chatHelper.getList(session.id ?? ""),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && !isInitial) {
+                final chats = snapshot.data?.toList() ?? [];
+                for (var chat in chats) {
+                  types.Message message;
+
+                  if (chat.userId == user.uid) {
+                    message = types.TextMessage(
+                      author: _user,
+                      id: chat.id ?? "",
+                      text: chat.content ?? "",
+                    );
+                  } else {
+                    message = types.TextMessage(
+                      author: _mama,
+                      id: chat.id ?? "",
+                      text: chat.content ?? "",
+                    );
+                  }
+
+                  if (_messages.where((e) => e.id == message.id).isEmpty) {
+                    _messages.insert(0, message);
+                  }
+                }
+              }
+
+              return Column(
+                children: [
+                  Image.asset(
+                    getMamaImage(mamaEmotion),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                  Expanded(
+                    child: ui.Chat(
+                      messages: _messages,
+                      customBottomWidget: !(session.isActive ?? true)
+                          ? Container(
+                              width: double.infinity,
+                              color: Configs.secondaryColor,
+                              height: 100,
+                              child: Center(
+                                child: LongRaisedButton(
+                                  height: 50,
+                                  onPressed: () {
+                                    setState(() {
+                                      session = Session(
+                                        id: randomString(),
+                                        userId: user.uid,
+                                        isActive: true,
+                                      );
+                                      mamaEmotion = "smile";
+                                      _messages.clear();
+                                      _sessionHelper.create(session);
+                                      _addMessageFromUser(
+                                        "Mama, ada waktu gak, mau tanya tanya nih mengenai barang ini?",
+                                      );
+                                      _addMessageFromMama(
+                                        "Ya, ${user.displayName}, apa yang mau kamu beli?",
+                                      );
+                                      isInitial = true;
+                                    });
+                                  },
+                                  child: const CustomText(
+                                    "Chat Lagi dengan Mama",
+                                    color: Configs.backgroundColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : null,
+                      onPreviewDataFetched: _handlePreviewDataFetched,
+                      onSendPressed: _handleSendPressed,
+                      user: _user,
+                      // scrollController: _scrollController,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
   }
 
   String getMamaImage(String name) {
@@ -241,18 +243,19 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
     //   );
     // } catch (err) {}
 
-    final reply = await MamaLogic.getReply(session, message.text);
+    final reply =
+        await Reply(session: session, mamaEmotion: "POG", replies: ["", ""]);
 
     if (reply != null) {
-      session = reply.session;
+      session = reply.session!;
       if (session.verdict != null) {
         await _sessionHelper.update(session);
         _sessionHelper.endSession(session.id ?? "");
         session.isActive = false;
       }
-      mamaEmotion = reply.mamaEmotion;
+      mamaEmotion = reply.mamaEmotion!;
 
-      for (final message in reply.replies) {
+      for (final message in reply.replies ?? []) {
         _addMessageFromMama(message);
       }
     }
