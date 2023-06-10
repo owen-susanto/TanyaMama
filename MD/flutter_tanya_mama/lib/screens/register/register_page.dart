@@ -14,6 +14,7 @@ import 'package:flutter_tanya_mama/widgets/base_raised_button.dart';
 import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_check_box_with_rich_text.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_dropdown_with_name.dart';
+import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
 import 'package:flutter_tanya_mama/widgets/link_text_span.dart';
 import 'package:flutter_tanya_mama/widgets/normal_form_field.dart';
 import 'package:flutter_tanya_mama/widgets/password_normal_form_field.dart';
@@ -65,106 +66,156 @@ class _RegisterPageState extends CoreStatefulWidgetState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      key: _formKey,
+    return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
-          NormalFormField(
-            informationText: "Mohon Pastikan kamu mengisi alamat email.",
-            hintText: "ex. xx@gmail.com",
-            labelText: "Email",
-            text: _emailTextEditingController.text,
-            suffixIcon: const Icon(Icons.person, size: 20),
-            keyboardType: TextInputType.name,
-            onChanged: (val) => _emailTextEditingController.text = val,
-            focusNode: _emailFocusNode,
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_passwordFocusNode),
-            textInputAction: TextInputAction.next,
+          const SizedBox(height: 25.0),
+          const CustomText(
+            "Daftarkan Akunmu.",
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 20),
-          PasswordNormalFormField(
-            hintText: "ex. ******",
-            labelText: "Password",
-            text: _passwordTextEditingController.text,
-            onChanged: (val) => _passwordTextEditingController.text = val,
-            focusNode: _passwordFocusNode,
-            onFieldSubmitted: (_) =>
-                FocusScope.of(context).requestFocus(_confirmPasswordFocusNode),
-            textInputAction: TextInputAction.next,
-          ),
-          const SizedBox(height: 20),
-          PasswordNormalFormField(
-            hintText: "ex. ******",
-            labelText: 'Konfirmasi Password',
-            text: _confirmPasswordTextEditingController.text,
-            onChanged: (val) =>
-                _confirmPasswordTextEditingController.text = val,
-            focusNode: _confirmPasswordFocusNode,
-            onFieldSubmitted: (_) async => await register(context),
-            textInputAction: TextInputAction.done,
-          ),
-          const SizedBox(height: 30),
-          CustomCheckBoxWithRichText(
-            [
-              TextSpan(
-                text: "Saya setuju dengan ",
-                style: TextStyle(fontSize: 14 * fontRatio),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText(
+                'Sudah Punya Akun ?',
+                fontWeight: FontWeight.w400,
+                fontSize: 15 * fontRatio,
+                color: Colors.black87,
               ),
-              LinkTextSpan(
-                text: "Syarat & Ketentuan",
-                url: "https://pakkj.app/terms.html",
-                style: TextStyle(
-                  color: Configs.secondaryColor,
-                  decoration: TextDecoration.underline,
-                  fontSize: 14 * fontRatio,
+              TextButton(
+                onPressed: () => Routes.push(context, PageName.Login),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  elevation: MaterialStateProperty.all<double>(0),
+                  overlayColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 248, 231, 220),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.all(12.5),
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: " dan ",
-                style: TextStyle(fontSize: 14 * fontRatio),
-              ),
-              LinkTextSpan(
-                text: "Kebijakan Privasi",
-                url: "https://pakkj.app/privacy.html",
-                style: TextStyle(
-                  color: Configs.secondaryColor,
-                  decoration: TextDecoration.underline,
-                  fontSize: 14 * fontRatio,
-                ),
-              ),
-              TextSpan(
-                text: " penggunaan aplikasi ini",
-                style: TextStyle(fontSize: 14 * fontRatio),
-              ),
-            ],
-            initialValue: accepted,
-            onChanged: (val) => setState(() {
-              accepted = val;
-            }),
-          ),
-          const SizedBox(height: 45),
-          Center(
-            child: SizedBox(
-              height: 50,
-              child: BaseRaisedButton(
-                ratio: 1 / 1.25,
-                onPressed: () async => await register(context),
-                color: Configs.secondaryColor,
-                child: const Text(
-                  "SIMPAN",
+                child: Text(
+                  'Login Disini',
                   style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+                    fontSize: 15 * fontRatio,
+                    color: Configs.secondaryColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: 25.0),
+          Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                NormalFormField(
+                  informationText: "Mohon Pastikan kamu mengisi alamat email.",
+                  hintText: "ex. xx@gmail.com",
+                  labelText: "Email",
+                  text: _emailTextEditingController.text,
+                  suffixIcon: const Icon(Icons.person, size: 20),
+                  keyboardType: TextInputType.name,
+                  onChanged: (val) => _emailTextEditingController.text = val,
+                  focusNode: _emailFocusNode,
+                  onFieldSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(_passwordFocusNode),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                PasswordNormalFormField(
+                  hintText: "ex. ******",
+                  labelText: "Password",
+                  text: _passwordTextEditingController.text,
+                  onChanged: (val) => _passwordTextEditingController.text = val,
+                  focusNode: _passwordFocusNode,
+                  onFieldSubmitted: (_) => FocusScope.of(context)
+                      .requestFocus(_confirmPasswordFocusNode),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                PasswordNormalFormField(
+                  hintText: "ex. ******",
+                  labelText: 'Konfirmasi Password',
+                  text: _confirmPasswordTextEditingController.text,
+                  onChanged: (val) =>
+                      _confirmPasswordTextEditingController.text = val,
+                  focusNode: _confirmPasswordFocusNode,
+                  onFieldSubmitted: (_) async => await register(context),
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(height: 30),
+                CustomCheckBoxWithRichText(
+                  [
+                    TextSpan(
+                      text: "Saya setuju dengan ",
+                      style: TextStyle(fontSize: 14 * fontRatio),
+                    ),
+                    LinkTextSpan(
+                      text: "Syarat & Ketentuan",
+                      url: "https://pakkj.app/terms.html",
+                      style: TextStyle(
+                        color: Configs.secondaryColor,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14 * fontRatio,
+                      ),
+                    ),
+                    TextSpan(
+                      text: " dan ",
+                      style: TextStyle(fontSize: 14 * fontRatio),
+                    ),
+                    LinkTextSpan(
+                      text: "Kebijakan Privasi",
+                      url: "https://pakkj.app/privacy.html",
+                      style: TextStyle(
+                        color: Configs.secondaryColor,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14 * fontRatio,
+                      ),
+                    ),
+                    TextSpan(
+                      text: " penggunaan aplikasi ini",
+                      style: TextStyle(fontSize: 14 * fontRatio),
+                    ),
+                  ],
+                  initialValue: accepted,
+                  onChanged: (val) => setState(() {
+                    accepted = val;
+                  }),
+                ),
+                const SizedBox(height: 45),
+                Center(
+                  child: SizedBox(
+                    height: 50,
+                    child: BaseRaisedButton(
+                      ratio: 1 / 1.25,
+                      onPressed: () async => await register(context),
+                      color: Configs.secondaryColor,
+                      child: const Text(
+                        "SIMPAN",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:flutter_tanya_mama/screens/home/home_screen_route_configuration.
 import 'package:flutter_tanya_mama/screens/introduction/introduction_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/screens/login/login_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/screens/register/register_screen_route_configuration.dart';
+import 'package:flutter_tanya_mama/screens/settings/settings_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 
 class Routes {
@@ -15,6 +16,7 @@ class Routes {
     LoginScreenRouteConfiguration(),
     RegisterScreenRouteConfiguration(),
     HomeScreenRouteConfiguration(),
+    SettingsScreenRouteConfiguration(),
   ];
 
   static Future<T?> pushAndRemoveUntil<T>(

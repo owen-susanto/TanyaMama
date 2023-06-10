@@ -15,6 +15,7 @@ class StartSessionWidget extends StatelessWidget {
     return SizedBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             "assets/mama_smile_512.png",

@@ -1,18 +1,13 @@
-import 'package:flutter_tanya_mama/models/item/item.dart';
-
 class Session {
   static Session? _empty;
 
   String? id;
   String? userId;
-  int? quantity;
-  String? reason;
-  bool? verdict;
+  int? price;
+  String? promotion;
   int? rejectType;
-  Item? item;
-
-  bool? isHobby;
-  bool? isProfession;
+  bool? verdict;
+  String? item;
   bool? isActive;
 
   static Session empty() {
@@ -24,31 +19,25 @@ class Session {
   Session({
     this.id,
     this.userId,
-    this.quantity,
     this.item,
-    this.reason,
+    this.price,
+    this.promotion,
     this.verdict,
     this.rejectType,
-    this.isHobby,
-    this.isProfession,
     this.isActive,
   });
 
   static Session? fromMap(Map<String, dynamic> data) {
-    return data == null
-        ? null
-        : Session(
-            id: data["id"] ?? "",
-            userId: data["userId"] ?? "",
-            quantity: data["quantity"] ?? 0,
-            item: Item.fromMap(data["item"]),
-            reason: data["reason"] ?? "",
-            verdict: data["verdict"],
-            rejectType: data["rejectType"] ?? 0,
-            isHobby: data["isHobby"] ?? false,
-            isProfession: data["isProfession"] ?? false,
-            isActive: data["isActive"] ?? false,
-          );
+    return Session(
+      id: data["id"] ?? "",
+      userId: data["userId"] ?? "",
+      item: data['item'],
+      promotion: data['promotion'],
+      price: data["prices"] ?? "",
+      verdict: data["verdict"],
+      rejectType: data["rejectType"] ?? 0,
+      isActive: data["isActive"] ?? false,
+    );
   }
 
   static List<Session?> fromMapList(List<dynamic> data) {
@@ -59,13 +48,11 @@ class Session {
     return {
       "id": id,
       "userId": userId,
-      "quantity": quantity,
-      "item": item?.toVariables(),
-      "reason": reason,
+      "item": item,
+      "promotion": promotion,
+      "prices": price,
       "verdict": verdict,
       "rejectType": rejectType,
-      "isHobby": isHobby,
-      "isProfession": isProfession,
       "isActive": isActive,
     };
   }

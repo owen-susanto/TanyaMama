@@ -118,34 +118,34 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
             textInputAction: TextInputAction.done,
           ),
           const SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () => Routes.push(context, PageName.ForgetPassword),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-                elevation: MaterialStateProperty.all<double>(0),
-                overlayColor: MaterialStateProperty.all<Color>(
-                  const Color.fromARGB(255, 248, 231, 220),
-                ),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.all(12.5),
-                ),
-              ),
-              child: Text(
-                "Lupa Password?",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Configs.secondaryColor,
-                  fontSize: 14 * fontRatio,
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.centerRight,
+          //   child: TextButton(
+          //     onPressed: () => Routes.push(context, PageName.ForgetPassword),
+          //     style: ButtonStyle(
+          //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          //         RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(20.0),
+          //         ),
+          //       ),
+          //       elevation: MaterialStateProperty.all<double>(0),
+          //       overlayColor: MaterialStateProperty.all<Color>(
+          //         const Color.fromARGB(255, 248, 231, 220),
+          //       ),
+          //       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          //         const EdgeInsets.all(12.5),
+          //       ),
+          //     ),
+          //     child: Text(
+          //       "Lupa Password?",
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         color: Configs.secondaryColor,
+          //         fontSize: 14 * fontRatio,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 45),
           Center(
             child: SizedBox(
@@ -181,17 +181,19 @@ class _LoginPageState extends CoreStatefulWidgetState<LoginPage> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         LoadingFunction.closeLoadingDialog(context);
-        ToastHelper.showException("Password Terlalu Lemag..", context);
+        ToastHelper.showException("Password Terlalu Lemah..", context);
       } else if (e.code == 'email-already-in-use') {
         LoadingFunction.closeLoadingDialog(context);
         ToastHelper.showException("Akun sudah ada..", context);
       } else {
         LoadingFunction.closeLoadingDialog(context);
-        ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+        ToastHelper.showException(
+            "Terjadi Kesalahan, Silahkan Coba lagi..", context);
       }
     } catch (err) {
       LoadingFunction.closeLoadingDialog(context);
-      ToastHelper.showException("Terjadi Kesalahan, Coba lagi..", context);
+      ToastHelper.showException(
+          "Terjadi Kesalahan, Silahkan Coba lagi..", context);
     }
   }
 }

@@ -4,6 +4,7 @@ class Reply {
   final Session? session;
   final List<String>? replies;
   final String? mamaEmotion;
+  final String? verdict;
 
-  Reply({this.session, this.replies, this.mamaEmotion});
+  Reply({this.session, this.replies, this.mamaEmotion, this.verdict});
 }
