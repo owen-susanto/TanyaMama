@@ -83,6 +83,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                           id: randomString(),
                           userId: user.uid,
                           isActive: true,
+                          createDate: DateTime.now(),
                         );
                         _sessionHelper.create(session);
                         _addMessageFromUser(
@@ -153,6 +154,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                                               id: randomString(),
                                               userId: user.uid,
                                               isActive: true,
+                                              createDate: DateTime.now(),
                                             );
                                             mamaEmotion = "smile";
                                             _messages.clear();

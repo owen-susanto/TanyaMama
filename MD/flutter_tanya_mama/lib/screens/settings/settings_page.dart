@@ -26,10 +26,7 @@ class _SettingsPageState extends CoreStatefulWidgetState<SettingsPage> {
           TitleButton(
             iconData: FontAwesomeIcons.clipboardList,
             title: "Sejarah Chat",
-            onTap: () async => await launchUrlString(
-              "https://pakkj.app/terms.html",
-              mode: LaunchMode.externalApplication,
-            ),
+            onTap: () async => await Routes.push(context, PageName.ChatLog),
           ),
           TitleButton(
             iconData: FontAwesomeIcons.arrowRightFromBracket,

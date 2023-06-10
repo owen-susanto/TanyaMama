@@ -27,6 +27,17 @@ class SessionHelper {
     return snapshot.first;
   }
 
+  Future<List<Session>> getSessionList(String id) async {
+    final snapshot = await instance
+        .collection('sessions')
+        .where("userId", isEqualTo: id)
+        // .where("isActive", isEqualTo: true)
+        .get()
+        .mapQuery<Session>(Session.fromMap, []);
+
+    return snapshot.toList();
+  }
+
   void endSession(String id) {
     instance
         .collection('sessions')

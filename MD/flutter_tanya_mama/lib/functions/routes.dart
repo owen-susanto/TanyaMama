@@ -3,6 +3,7 @@ import 'package:flutter_tanya_mama/constants/page_name.dart';
 import 'package:flutter_tanya_mama/functions/enum_parser.dart';
 import 'package:flutter_tanya_mama/functions/loading_function.dart';
 import 'package:flutter_tanya_mama/interfaces/i_route_configuration.dart';
+import 'package:flutter_tanya_mama/screens/chatLog/chat_log_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/screens/home/home_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/screens/introduction/introduction_screen_route_configuration.dart';
 import 'package:flutter_tanya_mama/screens/login/login_screen_route_configuration.dart';
@@ -17,6 +18,7 @@ class Routes {
     RegisterScreenRouteConfiguration(),
     HomeScreenRouteConfiguration(),
     SettingsScreenRouteConfiguration(),
+    ChatLogScreenRouteConfiguration(),
   ];
 
   static Future<T?> pushAndRemoveUntil<T>(

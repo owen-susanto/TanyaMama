@@ -9,6 +9,7 @@ class Session {
   bool? verdict;
   String? item;
   bool? isActive;
+  DateTime? createDate;
 
   static Session empty() {
     return _empty ??= Session(id: "EMPTY");
@@ -22,6 +23,7 @@ class Session {
     this.item,
     this.price,
     this.promotion,
+    this.createDate,
     this.verdict,
     this.rejectType,
     this.isActive,
@@ -37,6 +39,7 @@ class Session {
       verdict: data["verdict"],
       rejectType: data["rejectType"] ?? 0,
       isActive: data["isActive"] ?? false,
+      createDate: DateTime.tryParse(data["createDate"]) ?? DateTime.now(),
     );
   }
 
@@ -50,10 +53,11 @@ class Session {
       "userId": userId,
       "item": item,
       "promotion": promotion,
-      "prices": price,
+      "price": price,
       "verdict": verdict,
       "rejectType": rejectType,
       "isActive": isActive,
+      "createDate": createDate?.toIso8601String()
     };
   }
 }
