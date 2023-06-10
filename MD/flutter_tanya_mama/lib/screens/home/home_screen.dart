@@ -9,7 +9,9 @@ import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
 
 class HomeScreen extends BaseScreenWithAppBar {
   const HomeScreen({super.key}) : super(PageName.Home);
-
+  @override
+  // TODO: implement scrollable
+  bool get scrollable => false;
   @override
   Widget content(BuildContext context) {
     return const HomePage();
@@ -18,7 +20,7 @@ class HomeScreen extends BaseScreenWithAppBar {
   @override
   AppBar appBar(BuildContext context) {
     return AppBar(
-      title: const CustomText("REGISTER", fontSize: 20),
+      title: const CustomText("Home", fontSize: 20),
       centerTitle: true,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       backgroundColor: Colors.transparent,

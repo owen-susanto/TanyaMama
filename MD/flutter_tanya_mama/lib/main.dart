@@ -9,6 +9,7 @@ import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/firebase_options.dart';
 import 'package:flutter_tanya_mama/functions/double_back_function.dart';
 import 'package:flutter_tanya_mama/functions/token_version.dart';
+import 'package:flutter_tanya_mama/screens/home/home_screen.dart';
 // import 'package:flutter_tanya_mama/screens/home/home_screen.dart';
 import 'package:flutter_tanya_mama/screens/introduction/introduction_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AnimatedSplashScreen(
-        splash: "assets/pakkj.png",
+        splash: "assets/mama_proud_512.png",
         splashIconSize: 225,
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,
@@ -62,8 +63,8 @@ class MyApp extends StatelessWidget {
           if (user == null) {
             return DoubleBackFunction.use(const IntroductionScreen());
           } else {
-            return Container();
-            // return DoubleBackFunction.use(const HomeScreen());
+            // return Container();
+            return DoubleBackFunction.use(const HomeScreen());
           }
         } else {
           return DoubleBackFunction.use(const IntroductionScreen());

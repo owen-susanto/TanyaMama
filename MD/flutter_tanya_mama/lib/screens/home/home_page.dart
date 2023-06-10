@@ -41,7 +41,8 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
 
   @override
   void initState() {
-    _user = const types.User(id: "user@nasihatmama.com");
+    user = FirebaseAuth.instance.currentUser!;
+    _user = types.User(id: user.uid);
     _mama = const types.User(id: 'mama');
     // _scrollController = ScrollController();
     _sessionHelper = SessionHelper();
@@ -63,7 +64,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
     user = instance.currentUser!;
 
     return FutureBuilder<Session>(
-      future: _sessionHelper.getSession(user.email ?? ""),
+      future: _sessionHelper.getSession(user.uid),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           session = snapshot.data ?? Session.empty();
@@ -126,6 +127,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                   ),
                   Expanded(
                     child: ui.Chat(
+                      
                       messages: _messages,
                       customBottomWidget: !(session.isActive ?? true)
                           ? Container(

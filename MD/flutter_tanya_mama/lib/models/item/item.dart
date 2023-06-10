@@ -26,7 +26,7 @@ class Item {
 
   bool get isEmpty => this == Item.empty();
 
-  static Item? fromMap(Map<String, dynamic> data) {
+  static Item? fromMap(Map<String, dynamic>? data) {
     return data == null
         ? null
         : Item(
