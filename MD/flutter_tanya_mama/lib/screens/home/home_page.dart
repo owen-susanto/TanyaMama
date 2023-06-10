@@ -193,7 +193,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
           FutureBuilder(
               future: _sessionHelper.getSession(user.uid),
               builder: (context, snapshot) {
-                if (snapshot.data! == Session.empty()) {
+                if (snapshot.data == Session.empty()) {
                   return Container();
                 }
                 return Positioned(

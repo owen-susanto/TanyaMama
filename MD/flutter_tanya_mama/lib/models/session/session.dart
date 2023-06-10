@@ -33,7 +33,7 @@ class Session {
       userId: data["userId"] ?? "",
       item: data['item'],
       promotion: data['promotion'],
-      price: data["prices"] ?? "",
+      price: data["price"] ?? 0,
       verdict: data["verdict"],
       rejectType: data["rejectType"] ?? 0,
       isActive: data["isActive"] ?? false,
