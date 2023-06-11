@@ -56,7 +56,13 @@ class _IntroductionPageState extends State<IntroductionPage> {
                 fontSize: 21,
                 fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 20),
+              const CustomText(
+                "Gabung sekarang, dapatkan bantuan dan kelola keuanganmu dengan optimal. Daftar di aplikasi kami, ubah hidup keuanganmu hari ini!",
+                textAlign: TextAlign.left,
+                fontSize: 15,
+              ),
+              const SizedBox(height: 25),
               Center(
                 child: SizedBox(
                   height: 50,

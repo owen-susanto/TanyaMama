@@ -6,6 +6,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
 
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
+import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/models/session/session.dart';
 import 'package:flutter_tanya_mama/models/session/session_helper.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
@@ -52,11 +53,58 @@ class _ChatLogPageState extends CoreStatefulWidgetState<ChatLogPage> {
             List<Session> session_list = snapshot.data!;
             return ListView.builder(
                 itemBuilder: (context, i) {
-                  return CustomText((session_list[i].item ?? "") +
-                      "-" +
-                      (session_list[i].price.toString()) +
-                      " " +
-                      session_list[i].createDate!.toIso8601String());
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 10.0,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  session_list[i].createDate!.year.toString() +
+                                      "-" +
+                                      session_list[i]
+                                          .createDate!
+                                          .month
+                                          .toString() +
+                                      "-" +
+                                      session_list[i]
+                                          .createDate!
+                                          .day
+                                          .toString(),
+                                  fontSize: 20 * fontRatio,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                CustomText(
+                                  session_list[i].item ?? "Item not found",
+                                  fontSize: 14 * fontRatio,
+                                ),
+                              ],
+                            ),
+                          ),
+                          CustomText(
+                            session_list[i].verdict == true
+                                ? "Ok Buy"
+                                : session_list[i].rejectType == 1
+                                    ? "Hold"
+                                    : session_list[i].rejectType == 0
+                                        ? "Don't"
+                                        : "Not Finished",
+                            color: session_list[i].verdict == true
+                                ? Colors.green
+                                : session_list[i].rejectType == null
+                                    ? Colors.black54
+                                    : Colors.red,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 },
                 itemCount: session_list.length);
           }

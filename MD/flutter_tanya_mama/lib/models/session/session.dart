@@ -37,7 +37,7 @@ class Session {
       promotion: data['promotion'],
       price: data["price"] ?? 0,
       verdict: data["verdict"],
-      rejectType: data["rejectType"] ?? 0,
+      rejectType: data["rejectType"],
       isActive: data["isActive"] ?? false,
       createDate: DateTime.tryParse(data["createDate"]) ?? DateTime.now(),
     );

@@ -26,6 +26,7 @@ class _SettingsPageState extends CoreStatefulWidgetState<SettingsPage> {
           TitleButton(
             iconData: FontAwesomeIcons.clipboardList,
             title: "Sejarah Chat",
+            subtitle: "Lihat pertanyaanmu sebelumnya disini",
             onTap: () async => await Routes.push(context, PageName.ChatLog),
           ),
           TitleButton(

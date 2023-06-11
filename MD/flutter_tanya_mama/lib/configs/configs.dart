@@ -8,10 +8,10 @@ class Configs {
 
   //Colors for theme
   static const primaryColor = Color.fromRGBO(36, 35, 94, 1);
-  static const secondaryColor = Color.fromRGBO(244, 135, 32, 1);
-  static const tertiaryColor = Color.fromRGBO(87, 80, 145, 1);
-  static const quaternaryColor = Color.fromRGBO(0, 0, 47, 1);
-  static const pentiaryColor = Color.fromRGBO(181, 84, 0, 1);
+  static const secondaryColor = Color.fromRGBO(0, 180, 216, 1);
+  static const tertiaryColor = Color.fromRGBO(144, 224, 239, 1);
+  static const quaternaryColor = Color.fromRGBO(0, 119, 182, 1);
+  static const pentiaryColor = Color.fromRGBO(3, 4, 94, 1);
   static const backgroundColor = Color.fromRGBO(35, 65, 93, 1);
   static const statusBarColor = Color.fromRGBO(27, 26, 94, 1);
   static const stickyNotesColor = Color.fromRGBO(254, 255, 156, 1);
