@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AnimatedSplashScreen(
-        splash: "assets/mama_proud_512.png",
+        splash: "assets/Mama_HanyaKepala.png",
         splashIconSize: 225,
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,

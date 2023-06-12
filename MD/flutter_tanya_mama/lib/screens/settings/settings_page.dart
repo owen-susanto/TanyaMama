@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
 import 'package:flutter_tanya_mama/constants/page_name.dart';
 import 'package:flutter_tanya_mama/functions/routes.dart';
-import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
 import 'package:flutter_tanya_mama/widgets/title_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SettingsPage extends CoreStatefulWidget {
   const SettingsPage({super.key});

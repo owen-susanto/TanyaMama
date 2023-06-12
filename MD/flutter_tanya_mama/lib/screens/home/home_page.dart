@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as ui;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
@@ -12,11 +11,9 @@ import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/functions/loading_function.dart';
 import 'package:flutter_tanya_mama/models/chat/chat.dart';
 import 'package:flutter_tanya_mama/models/chat/chat_helper.dart';
-import 'package:flutter_tanya_mama/models/reply/reply.dart';
 import 'package:flutter_tanya_mama/models/session/session.dart';
 import 'package:flutter_tanya_mama/models/session/session_helper.dart';
 import 'package:flutter_tanya_mama/screens/home/widgets/start_session_widget.dart';
-import 'package:flutter_tanya_mama/widgets/builder/future_use.dart';
 import 'package:flutter_tanya_mama/widgets/builder/stream_use.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
 import 'package:flutter_tanya_mama/widgets/long_raised_button.dart';
@@ -50,7 +47,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
     // _scrollController = ScrollController();
     _sessionHelper = SessionHelper();
     _chatHelper = ChatHelper();
-    mamaEmotion = "smile";
+    mamaEmotion = "Melambai";
     isInitial = false;
 
     super.initState();
@@ -156,7 +153,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                                               isActive: true,
                                               createDate: DateTime.now(),
                                             );
-                                            mamaEmotion = "smile";
+                                            mamaEmotion = "Melambai";
                                             _messages.clear();
                                             _sessionHelper.create(session);
                                             _addMessageFromUser(
@@ -216,7 +213,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
   }
 
   String getMamaImage(String name) {
-    return "assets/mama_${name}_512.png";
+    return "assets/Mama_${name}.png";
   }
 
   void _addMessageFromMama(String message) {

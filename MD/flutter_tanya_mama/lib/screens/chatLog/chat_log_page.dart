@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/material.dart';
 
 import 'package:flutter_tanya_mama/basics/widgets/core_stateful_widget.dart';
-import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/models/session/session.dart';
 import 'package:flutter_tanya_mama/models/session/session_helper.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';

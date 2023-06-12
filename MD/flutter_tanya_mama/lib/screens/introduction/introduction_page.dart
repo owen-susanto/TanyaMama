@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tanya_mama/configs/configs.dart';
 import 'package:flutter_tanya_mama/constants/page_name.dart';
 import 'package:flutter_tanya_mama/functions/routes.dart';
-import 'package:flutter_tanya_mama/screens/introduction/widgets/agreement.dart';
 import 'package:flutter_tanya_mama/screens/introduction/widgets/header.dart';
 import 'package:flutter_tanya_mama/widgets/base_raised_button.dart';
 import 'package:flutter_tanya_mama/widgets/custom/custom_text.dart';
@@ -45,8 +44,9 @@ class _IntroductionPageState extends State<IntroductionPage> {
             children: <Widget>[
               Center(
                 child: Image.asset(
-                  'assets/Tanyamama.png',
-                  width: 200,
+                  'assets/Mama_Melambai.png',
+                  width: MediaQuery.of(context).size.width * 1,
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 45),

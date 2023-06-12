@@ -18,8 +18,9 @@ class StartSessionWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/mama_smile_512.png",
-            width: MediaQuery.of(context).size.width * 0.4,
+            "assets/Mama_HadapKeatas.png",
+            fit: BoxFit.cover,
+            width: MediaQuery.of(context).size.width * 1,
           ),
           Center(
             child: Column(
