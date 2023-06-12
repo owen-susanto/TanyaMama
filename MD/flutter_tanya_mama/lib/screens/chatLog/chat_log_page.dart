@@ -52,6 +52,13 @@ class _ChatLogPageState extends CoreStatefulWidgetState<ChatLogPage> {
             return ListView.builder(
                 itemBuilder: (context, i) {
                   return Card(
+                    color: session_list[i].verdict == true
+                        ? Colors.green[200]
+                        : session_list[i].rejectType == 1
+                            ? Colors.yellow[200]
+                            : session_list[i].rejectType == 0
+                                ? Colors.red[200]
+                                : Colors.grey[200],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20.0,
