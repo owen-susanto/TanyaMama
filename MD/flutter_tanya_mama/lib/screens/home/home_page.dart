@@ -133,6 +133,8 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                         Image.asset(
                           getMamaImage(mamaEmotion),
                           width: MediaQuery.of(context).size.width * 0.4,
+                          height: 200,
+                          fit: BoxFit.cover,
                         ),
                         Expanded(
                           child: ui.Chat(
