@@ -35,11 +35,28 @@ class StartSessionWidget extends StatelessWidget {
                 LongRaisedButton(
                   height: 50,
                   dividedBy: 1.2,
+                  color: Colors.transparent,
                   onPressed: onPressedStartSession,
                   child: const CustomText(
                     "Chat Sekarang",
                     color: Configs.backgroundColor,
                     fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                LongRaisedButton(
+                  height: 50,
+                  dividedBy: 1.2,
+                  color: Configs.pentiaryColor,
+                  onPressed: onPressedStartSession,
+                  child: const CustomText(
+                    "Quick Chat",
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
