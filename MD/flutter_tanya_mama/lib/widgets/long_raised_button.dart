@@ -22,8 +22,10 @@ class LongRaisedButton extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width / dividedBy,
       child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color?>(color),
+        ),
         // shape: Configs.roundedRectangleBorder(),
-        // color: color,
         onPressed: disabled ? null : onPressed,
         child: child,
       ),

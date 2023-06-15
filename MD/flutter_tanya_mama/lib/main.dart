@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AnimatedSplashScreen(
-        splash: "assets/Mama_HanyaKepala.png",
+        splash: "assets/Logo_TanyaMama.png",
         splashIconSize: 225,
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.fade,

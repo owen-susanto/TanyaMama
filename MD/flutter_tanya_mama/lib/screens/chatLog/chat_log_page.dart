@@ -49,15 +49,16 @@ class _ChatLogPageState extends CoreStatefulWidgetState<ChatLogPage> {
         builder: (context, snapshot) {
           if (snapshot.data != [] && snapshot.hasData) {
             List<Session> session_list = snapshot.data!;
+            session_list.sort((a, b) => b.createDate!.compareTo(a.createDate!));
             return ListView.builder(
                 itemBuilder: (context, i) {
                   return Card(
                     color: session_list[i].verdict == true
-                        ? Colors.green[200]
+                        ? Colors.lightGreen[200]
                         : session_list[i].rejectType == 1
                             ? Colors.yellow[200]
                             : session_list[i].rejectType == 0
-                                ? Colors.red[200]
+                                ? Colors.pink[200]
                                 : Colors.grey[200],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -101,10 +102,10 @@ class _ChatLogPageState extends CoreStatefulWidgetState<ChatLogPage> {
                                         ? "Don't"
                                         : "Not Finished",
                             color: session_list[i].verdict == true
-                                ? Colors.green
+                                ? Colors.green[800]!
                                 : session_list[i].rejectType == null
                                     ? Colors.black54
-                                    : Colors.red,
+                                    : Colors.red[800]!,
                           ),
                         ],
                       ),
