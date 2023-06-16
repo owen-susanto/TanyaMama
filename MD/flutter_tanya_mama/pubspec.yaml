@@ -68,6 +68,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.13.1
+
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -77,6 +80,12 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_launcher_icons:
+  android: true
+  # ios: true
+  image_path: "dev_assets/Icon_Tanya_Mama.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "dev_assets/Icon_Tanya_Mama.png"
 
 # The following section is specific to Flutter packages.
 flutter:
