@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Configs {
-  static String appName = "PAKKJ";
+  static String appName = "Tanya Mama";
 
   static String httpLink = "https://api.pakkj.app";
   static String chatLink = "https://chat.pakkj.app";
