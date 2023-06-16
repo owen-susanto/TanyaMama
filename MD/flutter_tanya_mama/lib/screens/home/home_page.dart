@@ -202,6 +202,7 @@ class _HomePageState extends CoreStatefulWidgetState<HomePage> {
                   child: IconButton(
                     onPressed: () async {
                       _sessionHelper.endSession(session.id!);
+                      _messages.clear();
                       setState(() {});
                     },
                     icon: const Icon(FontAwesomeIcons.flagCheckered,
